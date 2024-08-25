@@ -68,7 +68,7 @@ class _HomepageState extends State<Homepage>
                 Navigator.pushNamed(context, "/Notification");
               },
               icon: Icon(Icons.notifications)),
-          IconButton(onPressed: () {}, icon: Icon(Icons.person)),
+          IconButton(onPressed: () {}, icon: Icon(Icons.dark_mode)),
         ],
       ),
       drawer: Drawer(

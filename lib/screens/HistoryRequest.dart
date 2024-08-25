@@ -265,44 +265,54 @@ class _HistoryRequestState extends State<HistoryRequest>
               ),
             ),
           ),
-          SlideTransition(
-            position: _offsetAnimation,
-            child: FadeTransition(
-              opacity: _fadeAnimation,
-              child: Container(
-                padding: EdgeInsets.all(10),
-                margin: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Colors.white, width: 1),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Lab 013"),
-                    Text("Sunday, 10 August 2024 | 08:00 AM")
-                  ],
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, "/RequestDetails");
+            },
+            child: SlideTransition(
+              position: _offsetAnimation,
+              child: FadeTransition(
+                opacity: _fadeAnimation,
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  margin: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: Colors.white, width: 1),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Lab 013"),
+                      Text("Sunday, 10 August 2024 | 08:00 AM")
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
-          SlideTransition(
-            position: _offsetAnimation,
-            child: FadeTransition(
-              opacity: _fadeAnimation,
-              child: Container(
-                padding: EdgeInsets.all(10),
-                margin: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Colors.white, width: 1),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Lab 013"),
-                    Text("Sunday, 10 August 2024 | 08:00 AM")
-                  ],
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, "/RequestDetails");
+            },
+            child: SlideTransition(
+              position: _offsetAnimation,
+              child: FadeTransition(
+                opacity: _fadeAnimation,
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  margin: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: Colors.white, width: 1),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Lab 013"),
+                      Text("Sunday, 10 August 2024 | 08:00 AM")
+                    ],
+                  ),
                 ),
               ),
             ),
