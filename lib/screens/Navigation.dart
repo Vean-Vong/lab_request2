@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
-import 'package:request/pages/login.dart';
 import 'package:request/screens/HistoryRequest.dart';
 import 'package:request/screens/Homepage.dart';
 
@@ -33,7 +32,6 @@ class _NavigationState extends State<Navigation> {
           });
         },
         children: [
-          Login(),
           Homepage(),
           HistoryRequest(),
         ],

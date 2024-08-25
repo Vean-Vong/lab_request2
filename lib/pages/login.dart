@@ -55,7 +55,7 @@ class Login extends StatelessWidget {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      prefixIcon: Icon(Icons.key_sharp),
+                      prefixIcon: Icon(Icons.lock),
                       suffixIcon: Icon(Icons.visibility),
                       hintText: "Password",
                     ),
