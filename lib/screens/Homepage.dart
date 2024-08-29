@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
+import 'package:request/screens/HistoryRequest.dart';
 
 class Homepage extends StatefulWidget {
   @override
-  State<Homepage> createState() => _HomepageState();
+  _HomepageState createState() => _HomepageState();
 }
 
 class _HomepageState extends State<Homepage>
     with SingleTickerProviderStateMixin {
-  final GlobalKey<ScaffoldState> _scaffolkey = GlobalKey<ScaffoldState>();
+  int _selectedIndex = 0;
+  PageController _pageController = PageController();
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   late AnimationController _animationController;
   late Animation<Offset> _slideAnimation;
@@ -47,28 +52,35 @@ class _HomepageState extends State<Homepage>
   @override
   void dispose() {
     _animationController.dispose();
+    _pageController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffolkey,
+      key: _scaffoldKey,
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.sort), // Replace with any icon you prefer
+          icon: Icon(Icons.sort),
           onPressed: () {
-            _scaffolkey.currentState?.openDrawer();
+            _scaffoldKey.currentState?.openDrawer();
           },
         ),
-        title: Text('Home Page'),
+        title: Text('Vean Vong'),
         actions: [
           IconButton(
-              onPressed: () {
-                Navigator.pushNamed(context, "/Notification");
-              },
-              icon: Icon(Icons.notifications)),
-          IconButton(onPressed: () {}, icon: Icon(Icons.dark_mode)),
+            onPressed: () {
+              Navigator.pushNamed(context, "/Notification");
+            },
+            icon: Icon(Icons.notifications),
+          ),
+          IconButton(
+            onPressed: () {
+              // Toggle theme logic here
+            },
+            icon: Icon(Icons.dark_mode),
+          ),
         ],
       ),
       drawer: Drawer(
@@ -89,9 +101,7 @@ class _HomepageState extends State<Homepage>
                       fit: BoxFit.cover,
                     ),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
+                  SizedBox(height: 10),
                   Text(
                     "Vean Vong",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
@@ -146,9 +156,11 @@ class _HomepageState extends State<Homepage>
                 ],
               ),
             ),
-            SizedBox(
-              height: 10,
+            Divider(
+              color: Colors.grey,
+              // thickness: 2,
             ),
+            SizedBox(height: 10),
             GestureDetector(
               onTap: () {
                 Navigator.pushNamed(context, "/Language");
@@ -219,7 +231,7 @@ class _HomepageState extends State<Homepage>
             SizedBox(height: 15),
             GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, "/Login");
+                Navigator.pushNamed(context, "/");
               },
               child: Container(
                 margin: EdgeInsets.only(left: 20, right: 20),
@@ -253,269 +265,273 @@ class _HomepageState extends State<Homepage>
           ],
         ),
       ),
-      body: Padding(
-        padding: EdgeInsets.only(top: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Date Row
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("Date"),
-                  Text("Today, 11 August 2024"),
-                ],
+      body: PageView(
+        controller: _pageController,
+        onPageChanged: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
+        children: [
+          _buildHomepageContent(),
+          HistoryRequest(),
+        ],
+      ),
+      bottomNavigationBar: Container(
+        height: 80,
+        padding: EdgeInsets.only(top: 10, bottom: 10),
+        margin: EdgeInsets.only(left: 20, right: 20),
+        child: ClipRRect(
+          borderRadius: BorderRadius.all(
+            Radius.circular(100),
+          ),
+          child: FlashyTabBar(
+            backgroundColor: Color.fromARGB(255, 200, 194, 194),
+            selectedIndex: _selectedIndex,
+            showElevation: true,
+            onItemSelected: (index) {
+              setState(() {
+                _selectedIndex = index;
+                _pageController.jumpToPage(index);
+              });
+            },
+            items: [
+              FlashyTabBarItem(
+                icon: Icon(Icons.home, color: Colors.black),
+                title: Text('Home', style: TextStyle(color: Colors.black)),
               ),
-            ),
-            SizedBox(height: 10),
-            // Horizontal Scrollable Container Rows with Fade-Right Animation
-            SlideTransition(
-              position: _slideAnimation,
-              child: FadeTransition(
-                opacity: _fadeAnimation,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Container(
-                    padding: EdgeInsets.only(left: 10),
-                    child: Row(
-                      children: List.generate(7, (index) {
-                        // Create a list of Container widgets for each day of the week
-                        final daysOfWeek = [
-                          "Sun",
-                          "Mon",
-                          "Tue",
-                          "Wed",
-                          "Thu",
-                          "Fri",
-                          "Sat"
-                        ];
-                        bool isWhiteBackground = index % 2 ==
-                            1; // Change background color conditionally
-
-                        return Container(
-                          height: 92,
-                          margin: EdgeInsets.only(right: 10),
-                          padding: EdgeInsets.all(20),
-                          decoration: BoxDecoration(
-                            color: isWhiteBackground
-                                ? Colors.white
-                                : Colors.transparent,
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(
-                              color: Colors.white,
-                              width: 1.0,
-                            ),
-                          ),
-                          child: Column(
-                            children: [
-                              Text(
-                                daysOfWeek[index],
-                                style: TextStyle(
-                                    color: isWhiteBackground
-                                        ? Colors.black
-                                        : Colors.white),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "11",
-                                style: TextStyle(
-                                    color: isWhiteBackground
-                                        ? Colors.black
-                                        : Colors.white),
-                              ),
-                            ],
-                          ),
-                        );
-                      }),
-                    ),
-                  ),
-                ),
+              FlashyTabBarItem(
+                icon: Icon(Icons.history, color: Colors.black),
+                title: Text('History', style: TextStyle(color: Colors.black)),
               ),
-            ),
-            SizedBox(height: 20),
-
-            // Computer Room Section
-            Text("Computer Room",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            SizedBox(height: 10),
-            Expanded(
-              child: ListView(
-                children: [
-                  _buildLabContainer("Lab 014"),
-                  SizedBox(height: 20),
-                  _buildLabContainer("Lab 013"),
-                  SizedBox(height: 20),
-                  _buildLabContainer("Lab 013"),
-                ],
-              ),
-            ),
-            SizedBox(
-                height:
-                    10), // Increased bottom padding for Computer Room section
-
-            // Sessions Section
-            Text("Sessions",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            SizedBox(height: 10),
-            Row(
-              children: [
-                _buildSessionStatus(Colors.red, "Busy"),
-                SizedBox(width: 20),
-                _buildSessionStatus(Colors.green, "Free"),
-              ],
-            ),
-            SizedBox(height: 10),
-
-            // Time Slots
-            _buildTimeSlots(Colors.green, true),
-            SizedBox(height: 10),
-            _buildTimeSlots(Colors.red, false),
-            SizedBox(height: 20),
-
-            GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, "/Request");
-              },
-              child: Container(
-                padding: EdgeInsets.all(8),
-                margin: EdgeInsets.only(left: 20, right: 20, bottom: 10),
-                decoration: BoxDecoration(
-                  color: Colors.transparent,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: Colors.grey,
-                    width: 1,
-                  ),
-                ),
-                child: Container(
-                  padding: EdgeInsets.only(left: 20, right: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [Text("Request"), Icon(Icons.arrow_forward_ios)],
-                  ),
-                ),
-              ),
-            )
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 
-  // Helper widget for Computer Room
-  Widget _buildLabContainer(String labName) {
+  Widget _buildHomepageContent() {
+    return Padding(
+      padding: EdgeInsets.only(top: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("Date", style: TextStyle(fontWeight: FontWeight.bold)),
+                Text("Sunday, 11 August 2024"),
+              ],
+            ),
+          ),
+          SizedBox(height: 10),
+          SlideTransition(
+            position: _slideAnimation,
+            child: FadeTransition(
+              opacity: _fadeAnimation,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: List.generate(7, (index) {
+                    final daysOfWeek = [
+                      "Sun",
+                      "Mon",
+                      "Tue",
+                      "Wed",
+                      "Thu",
+                      "Fri",
+                      "Sat"
+                    ];
+                    final dayNumbers = [
+                      "11",
+                      "12",
+                      "13",
+                      "14",
+                      "15",
+                      "16",
+                      "17"
+                    ];
+                    bool isSelected = index == 0;
+
+                    return GestureDetector(
+                      onTap: () {
+                        // Handle date selection
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(left: 11),
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: isSelected
+                              ? Color.fromARGB(255, 34, 11, 210)
+                              : Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Colors.transparent),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(daysOfWeek[index],
+                                style: TextStyle(
+                                    color: isSelected
+                                        ? Colors.white
+                                        : Colors.black)),
+                            SizedBox(height: 5),
+                            Text(dayNumbers[index],
+                                style: TextStyle(
+                                    color: isSelected
+                                        ? Colors.white
+                                        : Colors.black)),
+                          ],
+                        ),
+                      ),
+                    );
+                  }),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: 20),
+          Container(
+            padding: EdgeInsets.only(left: 5),
+            child: Text(
+              "Computer Labs",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+          ),
+          SizedBox(height: 10),
+          Expanded(
+            child: ListView(
+              children: [
+                _buildLabItem("Lab 010", "Samdech SorHeang"),
+                _buildLabItem("Lab 011", "Samdech SorHeang"),
+                _buildLabItem("Lab 017", "Samdech SorHeang"),
+                _buildLabItem("Programming Lab", "STEMP"),
+                _buildLabItem("Computer for Engineer Lab", "STEMP"),
+                _buildLabItem("Network Lab", "STEMP"),
+              ],
+            ),
+          ),
+          SizedBox(height: 10),
+          Container(
+            padding: EdgeInsets.only(left: 5),
+            child: Text(
+              "Sessions Time",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+          ),
+          SizedBox(height: 10),
+          Wrap(
+            spacing: 10,
+            runSpacing: 10,
+            children: List.generate(6, (index) {
+              final times = [
+                "08:00 - 9:00 AM",
+                "10:00 - 11:00 AM",
+                "12:00 - 1:00 PM",
+                "02:00 - 3:00 PM",
+                "04:00 - 5:00 PM",
+                "06:00 - 7:00 PM",
+              ];
+              bool isSelected = index == 0;
+
+              return GestureDetector(
+                onTap: () {
+                  // Handle time selection
+                },
+                child: Container(
+                  margin: EdgeInsets.only(left: 10),
+                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                  decoration: BoxDecoration(
+                    color: isSelected
+                        ? Color.fromARGB(255, 34, 11, 210)
+                        : Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: Colors.transparent),
+                  ),
+                  child: Text(
+                    times[index],
+                    style: TextStyle(
+                        color: isSelected ? Colors.white : Colors.black),
+                  ),
+                ),
+              );
+            }),
+          ),
+          SizedBox(height: 10),
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, "/Request");
+            },
+            child: Container(
+              margin: EdgeInsets.all(10),
+              padding: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Color.fromARGB(255, 34, 11, 210),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Next",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    size: 15,
+                  )
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLabItem(String labName, String location) {
     return Container(
-      margin: EdgeInsets.only(right: 10, left: 10),
+      margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: Colors.transparent,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: Colors.white,
-          width: 1.0,
-        ),
+        color: Colors.black45,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: Colors.grey),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(labName,
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-              SizedBox(height: 10),
-              _buildLabDetail(
-                Icons.computer,
-                "Computer : 30",
-              ),
-              _buildLabDetail(Icons.camera, "Camera : 01"),
-              _buildLabDetail(Icons.volume_up_rounded, "Volume : 0"),
-            ],
-          ),
-          Image.asset(
-            "assets/images/lab.png",
-            width: 150,
-            fit: BoxFit.cover,
-          ),
+          Text(labName, style: TextStyle(fontWeight: FontWeight.bold)),
+          Text(location),
         ],
       ),
     );
   }
 
-  // Helper widget for Lab Details
-  Widget _buildLabDetail(IconData icon, String detail) {
-    return Container(
-      child: Row(
-        children: [
-          Icon(icon),
-          SizedBox(width: 10),
-          Text(detail),
-        ],
-      ),
+  Widget _buildDrawerItem(
+      {required IconData icon,
+      required String text,
+      required VoidCallback onTap,
+      required Color iconColor}) {
+    return ListTile(
+      leading: Icon(icon, color: iconColor),
+      title: Text(text),
+      onTap: onTap,
     );
   }
 
-  // Helper widget for Time Slots
-  Widget _buildTimeSlots(Color borderColor, bool isFree) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: List.generate(3, (index) {
-          final timeSlot = [
-            "07:00 - 08:00 AM",
-            "09:00 - 10:00 AM",
-            "08:00 - 09:00 AM"
-          ][index];
-          final status = isFree ? "Free" : "Eng Titya";
-          final statusColor = isFree ? Colors.green : Colors.red;
-          final icon = isFree ? Icons.check_box : Icons.close;
-          return Container(
-            width: 170,
-            padding: EdgeInsets.all(5),
-            margin: EdgeInsets.only(right: 10, left: 10),
-            decoration: BoxDecoration(
-              color: Colors.transparent,
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                color: borderColor,
-                width: 1.0,
-              ),
-            ),
-            child: Row(
-              children: [
-                Icon(icon, color: statusColor),
-                SizedBox(width: 10),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(timeSlot),
-                    Container(
-                      padding: EdgeInsets.only(right: 30),
-                      child: Text(status, style: TextStyle(color: statusColor)),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          );
-        }),
-      ),
-    );
-  }
-
-  // Helper widget for Session Status
-  Widget _buildSessionStatus(Color color, String status) {
-    return Container(
-      padding: EdgeInsets.only(left: 10),
-      child: Row(
-        children: [
-          Icon(Icons.check_box_outline_blank, color: color),
-          SizedBox(width: 5),
-          Text(status, style: TextStyle(color: color)),
-        ],
-      ),
+  Widget _buildDrawerHeader(String text) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 15),
+      child: Text(text,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+            color: Colors.grey,
+          )),
     );
   }
 }

@@ -2,25 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:request/screens/DeletionConfirmationScreen.dart';
 
 class RequestDetails extends StatefulWidget {
-  const RequestDetails({super.key});
+  RequestDetails({super.key});
 
   @override
   _RequestDetailsState createState() => _RequestDetailsState();
 }
 
 class _RequestDetailsState extends State<RequestDetails> {
-  bool isDeleted = false;
-
   void _handleDelete() {
     // Implement deletion logic here (e.g., make an API call to delete the request)
-    setState(() {
-      isDeleted = true;
-    });
-    // Navigate to the deletion confirmation screen
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(
-          builder: (context) => const DeletionConfirmationScreen()),
+      MaterialPageRoute(builder: (context) => DeletionConfirmationScreen()),
     );
   }
 
@@ -32,95 +25,115 @@ class _RequestDetailsState extends State<RequestDetails> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: const Icon(Icons.arrow_back_ios),
+          icon: Icon(Icons.arrow_back_ios),
         ),
-        title: const Text("Request's Detail"),
+        title: Text("Request's Detail"),
       ),
-      body: Container(
-        margin:
-            const EdgeInsets.only(top: 20, left: 10, right: 10, bottom: 200),
-        padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Colors.grey),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            buildDetailRow('Request Lab:', '013'),
-            buildDetailRow('Request Date:', 'Sunday, 11 August 2024'),
-            buildDetailRow('Phone:', '096712123'),
-            buildDetailRow('Major:', 'Accounting'),
-            buildDetailRow('Subject:', 'Computer Practice'),
-            buildDetailRow('Generation:', '18'),
-            buildDetailRow('Software Use:', 'Ms Excel'),
-            buildDetailRow('Student Quantity:', '<50'),
-            const SizedBox(height: 10),
-            const Text(
-              'Sessions:',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 5),
-            Row(
-              children: [
-                buildSessionButton('07:00 - 08:30 AM'),
-                const SizedBox(width: 10),
-                buildSessionButton('07:00 - 08:30 AM'),
-              ],
-            ),
-            const SizedBox(height: 10),
-            const Text(
-              'Additional:',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 5),
-            const Text(
-              'I want to use Ms Excel 2016 and include one speaker.',
-              style: TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                buildActionButton(
-                  Icons.delete,
-                  'Remove',
-                  Colors.red,
-                  _handleDelete,
-                ),
-                buildActionButton(
-                  Icons.edit,
-                  'Edit',
-                  Colors.grey,
-                  () {
-                    Navigator.pushNamed(context, "/EditDetail");
-                  },
-                ),
-              ],
-            ),
-          ],
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(10),
+        child: Container(
+          margin: EdgeInsets.only(bottom: 200), // Adjust margin as needed
+          padding: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: Colors.grey),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              buildDetailRow(Icons.business, 'Request Lab :', '013'),
+              buildDetailRow(Icons.calendar_today, 'Request Date:',
+                  'Sunday, 11 August 2024'),
+              buildDetailRow(Icons.phone, 'Phone :', '096712123'),
+              buildDetailRow(Icons.book, 'Major :', 'Accounting'),
+              buildDetailRow(Icons.subject, 'Subject :', 'Computer Practice'),
+              buildDetailRow(Icons.people, 'Generation :', '18'),
+              buildDetailRow(Icons.computer, 'Software Use :', 'Ms Excel'),
+              buildDetailRow(Icons.group, 'Student Quantity :', '<50'),
+              SizedBox(height: 10),
+              Row(
+                children: [
+                  Icon(
+                    Icons.lock_clock,
+                    color: Colors.grey,
+                  ),
+                  SizedBox(width: 5),
+                  Text(
+                    'Sessions:',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              SizedBox(height: 10),
+              Wrap(
+                spacing: 8, // Spacing between session buttons
+                runSpacing: 8, // Spacing between rows
+                children: [
+                  buildSessionButton(Icons.check_circle, '08:30 - 10:00 AM',
+                      'Available', Colors.green, Colors.white),
+                  buildSessionButton(Icons.cancel, '10:00 - 11:30 AM',
+                      'Unavailable', Colors.red, Colors.white),
+                  buildSessionButton(Icons.check_circle, '11:30 - 01:00 PM',
+                      'Available', Colors.green, Colors.white),
+                ],
+              ),
+              SizedBox(height: 10),
+              buildDetailRow(Icons.info_outline, 'Additional:', ''),
+              SizedBox(height: 5),
+              Text(
+                'I want to use Ms Excel 2016 and include one speaker.',
+                style: TextStyle(fontSize: 16),
+              ),
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  buildActionButton(
+                    Icons.delete,
+                    'Remove',
+                    Colors.red,
+                    _handleDelete,
+                  ),
+                  SizedBox(width: 16), // Add spacing
+                  buildActionButton(
+                    Icons.edit,
+                    'Edit',
+                    Colors.grey,
+                    () {
+                      Navigator.pushNamed(context, "/EditDetail");
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget buildDetailRow(String label, String value) {
+  Widget buildDetailRow(IconData icon, String label, [String value = '']) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5),
+      padding: EdgeInsets.symmetric(vertical: 5),
       child: Row(
         children: [
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Icon(icon, size: 20, color: Colors.grey),
+          ),
+          SizedBox(width: 8),
           Expanded(
             flex: 2,
             child: Text(
               label,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ),
           Expanded(
             flex: 3,
             child: Text(
               value,
-              style: const TextStyle(fontSize: 16),
+              style: TextStyle(fontSize: 16),
             ),
           ),
         ],
@@ -128,17 +141,28 @@ class _RequestDetailsState extends State<RequestDetails> {
     );
   }
 
-  Widget buildSessionButton(String text) {
+  Widget buildSessionButton(IconData icon, String time, String status,
+      Color bgColor, Color textColor) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
-        color: Colors.transparent,
+        color: bgColor,
         borderRadius: BorderRadius.circular(5),
-        border: Border.all(color: Colors.green),
       ),
-      child: Text(
-        text,
-        style: const TextStyle(color: Colors.green),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            icon,
+            color: textColor,
+            size: 16,
+          ),
+          SizedBox(width: 5),
+          Text(
+            '$time - $status',
+            style: TextStyle(color: textColor),
+          ),
+        ],
       ),
     );
   }
@@ -157,6 +181,7 @@ class _RequestDetailsState extends State<RequestDetails> {
             icon: Icon(icon, color: color),
           ),
         ),
+        SizedBox(height: 4),
         Text(
           label,
           style: TextStyle(color: color, fontSize: 14),

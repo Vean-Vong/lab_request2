@@ -48,23 +48,23 @@ class _HistoryRequestState extends State<HistoryRequest>
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffolded,
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.sort),
-          onPressed: () {
-            scaffolded.currentState?.openDrawer();
-          },
-        ),
-        title: Text('History Requested'),
-        actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.pushNamed(context, "/Notification");
-              },
-              icon: Icon(Icons.notifications)),
-          IconButton(onPressed: () {}, icon: Icon(Icons.person)),
-        ],
-      ),
+      // appBar: AppBar(
+      //   leading: IconButton(
+      //     icon: Icon(Icons.sort),
+      //     onPressed: () {
+      //       scaffolded.currentState?.openDrawer();
+      //     },
+      //   ),
+      //   title: Text('History Requested'),
+      //   actions: [
+      //     IconButton(
+      //         onPressed: () {
+      //           Navigator.pushNamed(context, "/Notification");
+      //         },
+      //         icon: Icon(Icons.notifications)),
+      //     IconButton(onPressed: () {}, icon: Icon(Icons.person)),
+      //   ],
+      // ),
       drawer: Drawer(
         child: ListView(
           children: <Widget>[
@@ -140,9 +140,7 @@ class _HistoryRequestState extends State<HistoryRequest>
                 ],
               ),
             ),
-            SizedBox(
-              height: 10,
-            ),
+            SizedBox(height: 10),
             GestureDetector(
               onTap: () {
                 Navigator.pushNamed(context, "/Language");
@@ -212,7 +210,9 @@ class _HistoryRequestState extends State<HistoryRequest>
             ),
             SizedBox(height: 15),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, "/Login");
+              },
               child: Container(
                 margin: EdgeInsets.only(left: 20, right: 20),
                 decoration: BoxDecoration(

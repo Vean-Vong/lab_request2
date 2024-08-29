@@ -7,7 +7,6 @@ import 'package:request/screens/EditScreen.dart';
 import 'package:request/screens/HistoryRequest.dart';
 import 'package:request/screens/Homepage.dart';
 import 'package:request/screens/Language.dart';
-import 'package:request/screens/Navigation.dart';
 import 'package:request/screens/Notifiction.dart';
 import 'package:request/screens/Request.dart';
 import 'package:request/screens/Request_Detail.dart';
@@ -24,7 +23,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.dark(),
       initialRoute: "/",
       routes: {
-        "/": (context) => Navigation(),
+        "/": (context) => Login(),
         "/Homepage": (context) => Homepage(),
         "/Request": (context) => Request(),
         "/EditProfile": (context) => EditProfile(),
@@ -35,7 +34,6 @@ class MyApp extends StatelessWidget {
         "/RequestDetails": (context) => RequestDetails(),
         "/EditDetail": (context) => EditDetail(),
         "/Register": (context) => Register(),
-        "/Login": (context) => Login(),
       },
     );
   }
