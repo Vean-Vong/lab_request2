@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:request/screens/HistoryRequest.dart';
+import 'package:intl/intl.dart' show DateFormat;
+
+import '../widgets/my_drawer.dart';
 
 class Homepage extends StatefulWidget {
   @override
@@ -9,52 +12,15 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage>
     with SingleTickerProviderStateMixin {
-  int _selectedIndex = 0;
   PageController _pageController = PageController();
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  late AnimationController _animationController;
-  late Animation<Offset> _slideAnimation;
-  late Animation<double> _fadeAnimation;
-
-  @override
-  void initState() {
-    super.initState();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 900),
-    );
-
-    _slideAnimation = Tween<Offset>(
-      begin: Offset(1.0, 0.0),
-      end: Offset.zero,
-    ).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.easeInOut,
-      ),
-    );
-
-    _fadeAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.easeInOut,
-      ),
-    );
-
-    _animationController.forward();
-  }
-
-  @override
-  void dispose() {
-    _animationController.dispose();
-    _pageController.dispose();
-    super.dispose();
-  }
+  int? selectedLabIndex;
+  int _selectedIndex = 0;
+  bool isExpanded = true;
+  List<int> selectedTimeIndices = [];
+  bool isSessionExpanded = true;
 
   @override
   Widget build(BuildContext context) {
@@ -69,12 +35,14 @@ class _HomepageState extends State<Homepage>
         ),
         title: Text('Vean Vong'),
         actions: [
+          // Notification
           IconButton(
             onPressed: () {
               Navigator.pushNamed(context, "/Notification");
             },
             icon: Icon(Icons.notifications),
           ),
+          // Dark Mode
           IconButton(
             onPressed: () {
               // Toggle theme logic here
@@ -83,188 +51,8 @@ class _HomepageState extends State<Homepage>
           ),
         ],
       ),
-      drawer: Drawer(
-        child: ListView(
-          children: <Widget>[
-            DrawerHeader(
-              padding: EdgeInsets.only(top: 20),
-              decoration: BoxDecoration(
-                color: Color.fromARGB(90, 158, 158, 158),
-              ),
-              child: Column(
-                children: [
-                  ClipOval(
-                    child: Image.asset(
-                      "assets/images/image.png",
-                      width: 60,
-                      height: 60,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    "Vean Vong",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                  ),
-                  Text("098765477"),
-                ],
-              ),
-            ),
-            SizedBox(height: 15),
-            GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, "/EditProfile");
-              },
-              child: Container(
-                margin: EdgeInsets.only(left: 20, right: 20),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(
-                      color: Colors.white,
-                      width: 1,
-                    )),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.edit,
-                              color: Colors.green,
-                            )),
-                        Text("Edit Profile"),
-                      ],
-                    ),
-                    IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.arrow_forward_ios, size: 18))
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(height: 15),
-            Container(
-              padding: EdgeInsets.only(left: 10),
-              child: Row(
-                children: [
-                  Text(
-                    "General Settings",
-                    style: TextStyle(fontSize: 20),
-                  ),
-                ],
-              ),
-            ),
-            Divider(
-              color: Colors.grey,
-              // thickness: 2,
-            ),
-            SizedBox(height: 10),
-            GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, "/Language");
-              },
-              child: Container(
-                margin: EdgeInsets.only(left: 20, right: 20),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(
-                      color: Colors.white,
-                      width: 1,
-                    )),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.language,
-                              color: Colors.amber,
-                            )),
-                        Text("Language"),
-                      ],
-                    ),
-                    IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.arrow_forward_ios, size: 18))
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(height: 15),
-            GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, "/About");
-              },
-              child: Container(
-                margin: EdgeInsets.only(left: 20, right: 20),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(
-                      color: Colors.white,
-                      width: 1,
-                    )),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.help,
-                              color: Colors.blue,
-                            )),
-                        Text("About"),
-                      ],
-                    ),
-                    IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.arrow_forward_ios, size: 18))
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(height: 15),
-            GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, "/");
-              },
-              child: Container(
-                margin: EdgeInsets.only(left: 20, right: 20),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(
-                      color: Colors.white,
-                      width: 1,
-                    )),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.login_outlined,
-                              color: Colors.red,
-                            )),
-                        Text("Log Out"),
-                      ],
-                    ),
-                    IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.arrow_forward_ios, size: 18))
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+      // Drawer
+      drawer: CustomDrawer(),
       body: PageView(
         controller: _pageController,
         onPageChanged: (index) {
@@ -272,11 +60,13 @@ class _HomepageState extends State<Homepage>
             _selectedIndex = index;
           });
         },
+        // Body
         children: [
           _buildHomepageContent(),
           HistoryRequest(),
         ],
       ),
+      // Bottom Navigation
       bottomNavigationBar: Container(
         height: 80,
         padding: EdgeInsets.only(top: 10, bottom: 10),
@@ -312,155 +102,159 @@ class _HomepageState extends State<Homepage>
   }
 
   Widget _buildHomepageContent() {
+    // Format Date Declaration
+    final now = DateTime.now();
+    final formatter = DateFormat('dd MMM yyyy');
+    final formatteDate = formatter.format(now);
+
     return Padding(
       padding: EdgeInsets.only(top: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("Date", style: TextStyle(fontWeight: FontWeight.bold)),
-                Text("Sunday, 11 August 2024"),
-              ],
-            ),
-          ),
-          SizedBox(height: 10),
-          SlideTransition(
-            position: _slideAnimation,
-            child: FadeTransition(
-              opacity: _fadeAnimation,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: List.generate(7, (index) {
-                    final daysOfWeek = [
-                      "Sun",
-                      "Mon",
-                      "Tue",
-                      "Wed",
-                      "Thu",
-                      "Fri",
-                      "Sat"
-                    ];
-                    final dayNumbers = [
-                      "11",
-                      "12",
-                      "13",
-                      "14",
-                      "15",
-                      "16",
-                      "17"
-                    ];
-                    bool isSelected = index == 0;
-
-                    return GestureDetector(
-                      onTap: () {
-                        // Handle date selection
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(left: 11),
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: isSelected
-                              ? Color.fromARGB(255, 34, 11, 210)
-                              : Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: Colors.transparent),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(daysOfWeek[index],
-                                style: TextStyle(
-                                    color: isSelected
-                                        ? Colors.white
-                                        : Colors.black)),
-                            SizedBox(height: 5),
-                            Text(dayNumbers[index],
-                                style: TextStyle(
-                                    color: isSelected
-                                        ? Colors.white
-                                        : Colors.black)),
-                          ],
-                        ),
-                      ),
-                    );
-                  }),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // Date
+              const Text(
+                'Date',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-            ),
+              // Actual Date
+              Text(
+                'Today, $formatteDate',
+                style: const TextStyle(fontSize: 16),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          const SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: WeekView(),
           ),
           SizedBox(height: 20),
-          Container(
-            padding: EdgeInsets.only(left: 5),
-            child: Text(
-              "Computer Labs",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-          ),
-          SizedBox(height: 10),
-          Expanded(
-            child: ListView(
-              children: [
-                _buildLabItem("Lab 010", "Samdech SorHeang"),
-                _buildLabItem("Lab 011", "Samdech SorHeang"),
-                _buildLabItem("Lab 017", "Samdech SorHeang"),
-                _buildLabItem("Programming Lab", "STEMP"),
-                _buildLabItem("Computer for Engineer Lab", "STEMP"),
-                _buildLabItem("Network Lab", "STEMP"),
-              ],
-            ),
-          ),
-          SizedBox(height: 10),
-          Container(
-            padding: EdgeInsets.only(left: 5),
-            child: Text(
-              "Sessions Time",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-          ),
-          SizedBox(height: 10),
-          Wrap(
-            spacing: 10,
-            runSpacing: 10,
-            children: List.generate(6, (index) {
-              final times = [
-                "08:00 - 9:00 AM",
-                "10:00 - 11:00 AM",
-                "12:00 - 1:00 PM",
-                "02:00 - 3:00 PM",
-                "04:00 - 5:00 PM",
-                "06:00 - 7:00 PM",
-              ];
-              bool isSelected = index == 0;
-
-              return GestureDetector(
-                onTap: () {
-                  // Handle time selection
-                },
-                child: Container(
-                  margin: EdgeInsets.only(left: 10),
-                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-                  decoration: BoxDecoration(
-                    color: isSelected
-                        ? Color.fromARGB(255, 34, 11, 210)
-                        : Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: Colors.transparent),
-                  ),
-                  child: Text(
-                    times[index],
-                    style: TextStyle(
-                        color: isSelected ? Colors.white : Colors.black),
-                  ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                padding: const EdgeInsets.only(left: 5),
+                child: const Text(
+                  "Computer Labs",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
-              );
-            }),
+              ),
+              IconButton(
+                icon: Icon(isExpanded
+                    ? Icons.keyboard_arrow_up
+                    : Icons.keyboard_arrow_down),
+                onPressed: () {
+                  setState(() {
+                    isExpanded = !isExpanded;
+                  });
+                },
+              ),
+            ],
           ),
           SizedBox(height: 10),
+          if (isExpanded)
+            Expanded(
+              child: ListView(
+                children: [
+                  _buildLabItem("Lab 010", "Samdech SorHeang", 0),
+                  _buildLabItem("Lab 011", "Samdech SorHeang", 1),
+                  _buildLabItem("Lab 017", "Samdech SorHeang", 2),
+                  _buildLabItem("Programming Lab", "STEMP", 3),
+                  _buildLabItem("Computer for Engineer Lab", "STEMP", 4),
+                  _buildLabItem("Network Lab", "STEMP", 5),
+                ],
+              ),
+            ),
+          SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                padding: const EdgeInsets.only(left: 5),
+                child: const Text(
+                  "Sessions",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ),
+              IconButton(
+                icon: Icon(isExpanded
+                    ? Icons.keyboard_arrow_up
+                    : Icons.keyboard_arrow_down),
+                onPressed: () {
+                  setState(() {
+                    isSessionExpanded = !isSessionExpanded;
+                  });
+                },
+              ),
+            ],
+          ),
+          SizedBox(height: 10),
+          if (isSessionExpanded)
+            GridView.builder(
+              shrinkWrap: true,
+              itemCount: 6,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                childAspectRatio: 3,
+              ),
+              itemBuilder: (context, index) {
+                final times = [
+                  "08:00 - 09:00 AM",
+                  "10:00 - 11:00 AM",
+                  "12:00 - 01:00 PM",
+                  "02:00 - 03:00 PM",
+                  "04:00 - 05:00 PM",
+                  "06:00 - 07:00 PM",
+                ];
+                bool isSelected = selectedTimeIndices.contains(index);
+
+                return GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      // Toggle selection for multiple slots
+                      if (isSelected) {
+                        selectedTimeIndices.remove(index);
+                      } else {
+                        selectedTimeIndices.add(index);
+                      }
+                    });
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 18,
+                      horizontal: 12,
+                    ),
+                    decoration: BoxDecoration(
+                      color: isSelected ? Colors.blue : Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: Colors.transparent),
+                    ),
+                    child: Center(
+                      // Center text inside each card
+                      child: Text(
+                        times[index],
+                        style: TextStyle(
+                          color: isSelected ? Colors.white : Colors.black,
+                          fontSize: 16,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          SizedBox(height: 10),
+          // Request Page
           GestureDetector(
             onTap: () {
               Navigator.pushNamed(context, "/Request");
@@ -469,7 +263,7 @@ class _HomepageState extends State<Homepage>
               margin: EdgeInsets.all(10),
               padding: EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: Color.fromARGB(255, 34, 11, 210),
+                color: Colors.blue,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Row(
@@ -492,46 +286,130 @@ class _HomepageState extends State<Homepage>
     );
   }
 
-  Widget _buildLabItem(String labName, String location) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-      padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: Colors.black45,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Colors.grey),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(labName, style: TextStyle(fontWeight: FontWeight.bold)),
-          Text(location),
-        ],
+  Widget _buildLabItem(String labName, String location, int index) {
+    bool isSelected = index == selectedLabIndex;
+
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          selectedLabIndex = index;
+        });
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(
+          vertical: 5,
+          horizontal: 10,
+        ),
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: isSelected ? Colors.blue.shade100 : Colors.black,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+            color: isSelected ? Colors.blue : Colors.grey,
+            width: 2,
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              labName,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: isSelected ? Colors.blue : Colors.white,
+              ),
+            ),
+            Text(
+              location,
+              style: TextStyle(
+                color: isSelected ? Colors.blue : Colors.white,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
+}
 
-  Widget _buildDrawerItem(
-      {required IconData icon,
-      required String text,
-      required VoidCallback onTap,
-      required Color iconColor}) {
-    return ListTile(
-      leading: Icon(icon, color: iconColor),
-      title: Text(text),
-      onTap: onTap,
-    );
+class WeekView extends StatefulWidget {
+  const WeekView({super.key});
+
+  @override
+  _WeekViewState createState() => _WeekViewState();
+}
+
+class _WeekViewState extends State<WeekView> {
+  DateTime selectedDate = DateTime.now();
+
+  List<Map<String, dynamic>> getDaysOfWeek() {
+    DateTime now = DateTime.now();
+    return List.generate(14, (index) {
+      DateTime date = now.add(Duration(days: index));
+      return {
+        "day": DateFormat('EEE').format(date),
+        "date": date.day.toString(),
+        "isSelected": date.day == selectedDate.day,
+        "isToday": date.day == now.day &&
+            date.month == now.month &&
+            date.year == now.year,
+      };
+    });
   }
 
-  Widget _buildDrawerHeader(String text) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 15),
-      child: Text(text,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-            color: Colors.grey,
-          )),
+  @override
+  Widget build(BuildContext context) {
+    List<Map<String, dynamic>> days = getDaysOfWeek();
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: days.map((day) {
+        return GestureDetector(
+          onTap: () {
+            setState(() {
+              selectedDate = DateTime.now().add(
+                Duration(days: days.indexOf(day)),
+              );
+            });
+          },
+          child: Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: Container(
+              width: 60,
+              height: 90,
+              decoration: BoxDecoration(
+                color: day['isSelected']
+                    ? Colors.blue.shade200
+                    : Colors.grey.shade300,
+                borderRadius: BorderRadius.circular(16),
+                border: day['isToday']
+                    ? Border.all(color: Colors.blue, width: 3)
+                    : null,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    day['day'],
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    day['date'],
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      }).toList(),
     );
   }
 }
