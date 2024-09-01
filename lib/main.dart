@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:request/pages/Register.dart';
-import 'package:request/pages/login.dart';
-import 'package:request/screens/About.dart';
-import 'package:request/screens/EditProfile.dart';
-import 'package:request/screens/EditScreen.dart';
-import 'package:request/screens/HistoryRequest.dart';
-import 'package:request/screens/Homepage.dart';
-import 'package:request/screens/Language.dart';
-import 'package:request/screens/Notifiction.dart';
-import 'package:request/screens/Request.dart';
-import 'package:request/screens/Request_Detail.dart';
-import 'controller/controller.dart'; 
+import 'package:request/views/auth/Register.dart';
+import 'package:request/views/auth/login.dart';
+import 'package:request/views/About.dart';
+import 'package:request/views/EditProfile.dart';
+import 'package:request/views/EditScreen.dart';
+import 'package:request/views/HistoryRequest.dart';
+import 'package:request/views/Homepage.dart';
+import 'package:request/views/Language.dart';
+import 'package:request/views/Notifiction.dart';
+import 'package:request/views/Request.dart';
+import 'package:request/views/Request_Detail.dart';
+import 'controllers/controller.dart'; 
 
 void main() {
   // Initialize the GetX controller

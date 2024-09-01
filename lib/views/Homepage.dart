@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:get/get.dart';
-import 'package:request/screens/HistoryRequest.dart';
+import 'package:request/views/HistoryRequest.dart';
 import 'package:intl/intl.dart' show DateFormat;
-import '../controller/controller.dart';
-import '../widgets/my_drawer.dart';
+import '../controllers/controller.dart';
+import 'widgets/my_drawer.dart';
 
 class Homepage extends StatefulWidget {
   @override

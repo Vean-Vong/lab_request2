@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:request/screens/DeletionConfirmationScreen.dart';
+import 'package:request/views/DeletionConfirmationScreen.dart';
 
-import '../controller/controller.dart';
+import '../controllers/controller.dart';
 
 class RequestDetails extends StatefulWidget {
   RequestDetails({super.key});
