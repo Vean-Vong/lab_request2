@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:request/screens/DeletionConfirmationScreen.dart';
+
+import '../controller/controller.dart';
 
 class RequestDetails extends StatefulWidget {
   RequestDetails({super.key});
@@ -19,6 +22,7 @@ class _RequestDetailsState extends State<RequestDetails> {
 
   @override
   Widget build(BuildContext context) {
+    var controller = Get.find<SelectionController>();
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -41,7 +45,8 @@ class _RequestDetailsState extends State<RequestDetails> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              buildDetailRow(Icons.business, 'Request Lab :', '013'),
+              buildDetailRow(Icons.business, 'Request Lab :',
+                  '${controller.selectedLabIndex.value}'),
               buildDetailRow(Icons.calendar_today, 'Request Date:',
                   'Sunday, 11 August 2024'),
               buildDetailRow(Icons.phone, 'Phone :', '096712123'),

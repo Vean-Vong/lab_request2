@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
+import 'package:get/get.dart';
 import 'package:request/screens/HistoryRequest.dart';
 import 'package:intl/intl.dart' show DateFormat;
-
+import '../controller/controller.dart';
 import '../widgets/my_drawer.dart';
 
 class Homepage extends StatefulWidget {
@@ -10,17 +11,11 @@ class Homepage extends StatefulWidget {
   _HomepageState createState() => _HomepageState();
 }
 
-class _HomepageState extends State<Homepage>
-    with SingleTickerProviderStateMixin {
-  PageController _pageController = PageController();
-
+class _HomepageState extends State<Homepage> {
+  final PageController _pageController = PageController();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
-  int? selectedLabIndex;
+  final SelectionController controller = Get.find();
   int _selectedIndex = 0;
-  bool isExpanded = true;
-  List<int> selectedTimeIndices = [];
-  bool isSessionExpanded = true;
 
   @override
   Widget build(BuildContext context) {
@@ -29,20 +24,14 @@ class _HomepageState extends State<Homepage>
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.sort),
-          onPressed: () {
-            _scaffoldKey.currentState?.openDrawer();
-          },
+          onPressed: () => _scaffoldKey.currentState?.openDrawer(),
         ),
         title: Text('Vean Vong'),
         actions: [
-          // Notification
           IconButton(
-            onPressed: () {
-              Navigator.pushNamed(context, "/Notification");
-            },
+            onPressed: () => Navigator.pushNamed(context, "/Notification"),
             icon: Icon(Icons.notifications),
           ),
-          // Dark Mode
           IconButton(
             onPressed: () {
               // Toggle theme logic here
@@ -51,280 +40,229 @@ class _HomepageState extends State<Homepage>
           ),
         ],
       ),
-      // Drawer
       drawer: CustomDrawer(),
       body: PageView(
         controller: _pageController,
-        onPageChanged: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
-        // Body
+        onPageChanged: (index) => setState(() => _selectedIndex = index),
         children: [
           _buildHomepageContent(),
           HistoryRequest(),
         ],
       ),
-      // Bottom Navigation
-      bottomNavigationBar: Container(
-        height: 80,
-        padding: EdgeInsets.only(top: 10, bottom: 10),
-        margin: EdgeInsets.only(left: 20, right: 20),
-        child: ClipRRect(
-          borderRadius: BorderRadius.all(
-            Radius.circular(100),
-          ),
-          child: FlashyTabBar(
-            backgroundColor: Color.fromARGB(255, 200, 194, 194),
-            selectedIndex: _selectedIndex,
-            showElevation: true,
-            onItemSelected: (index) {
-              setState(() {
-                _selectedIndex = index;
-                _pageController.jumpToPage(index);
-              });
-            },
-            items: [
-              FlashyTabBarItem(
-                icon: Icon(Icons.home, color: Colors.black),
-                title: Text('Home', style: TextStyle(color: Colors.black)),
-              ),
-              FlashyTabBarItem(
-                icon: Icon(Icons.history, color: Colors.black),
-                title: Text('History', style: TextStyle(color: Colors.black)),
-              ),
-            ],
-          ),
+      bottomNavigationBar: _buildBottomNavigation(),
+    );
+  }
+
+  Widget _buildBottomNavigation() {
+    return Container(
+      height: 80,
+      padding: EdgeInsets.symmetric(vertical: 10),
+      margin: EdgeInsets.symmetric(horizontal: 20),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(100),
+        child: FlashyTabBar(
+          backgroundColor: Color(0xFFC8C2C2),
+          selectedIndex: _selectedIndex,
+          showElevation: true,
+          onItemSelected: (index) => setState(() {
+            _selectedIndex = index;
+            _pageController.jumpToPage(index);
+          }),
+          items: [
+            FlashyTabBarItem(
+              icon: Icon(Icons.home, color: Colors.black),
+              title: Text('Home', style: TextStyle(color: Colors.black)),
+            ),
+            FlashyTabBarItem(
+              icon: Icon(Icons.history, color: Colors.black),
+              title: Text('History', style: TextStyle(color: Colors.black)),
+            ),
+          ],
         ),
       ),
     );
   }
 
   Widget _buildHomepageContent() {
-    // Format Date Declaration
-    final now = DateTime.now();
-    final formatter = DateFormat('dd MMM yyyy');
-    final formatteDate = formatter.format(now);
-
-    return Padding(
-      padding: EdgeInsets.only(top: 20),
+    return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // Date
-              const Text(
-                'Date',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              // Actual Date
-              Text(
-                'Today, $formatteDate',
-                style: const TextStyle(fontSize: 16),
-              ),
-            ],
-          ),
+          _buildDateSelector(),
           const SizedBox(height: 10),
-          const SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: WeekView(),
-          ),
-          SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                padding: const EdgeInsets.only(left: 5),
-                child: const Text(
-                  "Computer Labs",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ),
-              IconButton(
-                icon: Icon(isExpanded
-                    ? Icons.keyboard_arrow_up
-                    : Icons.keyboard_arrow_down),
-                onPressed: () {
-                  setState(() {
-                    isExpanded = !isExpanded;
-                  });
-                },
-              ),
-            ],
-          ),
-          SizedBox(height: 10),
-          if (isExpanded)
-            Expanded(
-              child: ListView(
-                children: [
-                  _buildLabItem("Lab 010", "Samdech SorHeang", 0),
-                  _buildLabItem("Lab 011", "Samdech SorHeang", 1),
-                  _buildLabItem("Lab 017", "Samdech SorHeang", 2),
-                  _buildLabItem("Programming Lab", "STEMP", 3),
-                  _buildLabItem("Computer for Engineer Lab", "STEMP", 4),
-                  _buildLabItem("Network Lab", "STEMP", 5),
-                ],
-              ),
-            ),
-          SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                padding: const EdgeInsets.only(left: 5),
-                child: const Text(
-                  "Sessions",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ),
-              IconButton(
-                icon: Icon(isExpanded
-                    ? Icons.keyboard_arrow_up
-                    : Icons.keyboard_arrow_down),
-                onPressed: () {
-                  setState(() {
-                    isSessionExpanded = !isSessionExpanded;
-                  });
-                },
-              ),
-            ],
-          ),
-          SizedBox(height: 10),
-          if (isSessionExpanded)
-            GridView.builder(
-              shrinkWrap: true,
-              itemCount: 6,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                childAspectRatio: 3,
-              ),
-              itemBuilder: (context, index) {
-                final times = [
-                  "08:00 - 09:00 AM",
-                  "10:00 - 11:00 AM",
-                  "12:00 - 01:00 PM",
-                  "02:00 - 03:00 PM",
-                  "04:00 - 05:00 PM",
-                  "06:00 - 07:00 PM",
-                ];
-                bool isSelected = selectedTimeIndices.contains(index);
-
-                return GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      // Toggle selection for multiple slots
-                      if (isSelected) {
-                        selectedTimeIndices.remove(index);
-                      } else {
-                        selectedTimeIndices.add(index);
-                      }
-                    });
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 18,
-                      horizontal: 12,
-                    ),
-                    decoration: BoxDecoration(
-                      color: isSelected ? Colors.blue : Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.transparent),
-                    ),
-                    child: Center(
-                      // Center text inside each card
-                      child: Text(
-                        times[index],
-                        style: TextStyle(
-                          color: isSelected ? Colors.white : Colors.black,
-                          fontSize: 16,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
-          SizedBox(height: 10),
-          // Request Page
-          GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(context, "/Request");
-            },
-            child: Container(
-              margin: EdgeInsets.all(10),
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: Colors.blue,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Next",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  Icon(
-                    Icons.arrow_forward_ios,
-                    size: 15,
-                  )
-                ],
-              ),
-            ),
-          ),
+          _buildLabSection(),
+          const SizedBox(height: 10),
+          _buildSessionSection(),
+          const SizedBox(height: 10),
+          _buildNextButton(),
         ],
       ),
     );
   }
 
-  Widget _buildLabItem(String labName, String location, int index) {
-    bool isSelected = index == selectedLabIndex;
+  Widget _buildDateSelector() {
+    final now = DateTime.now();
+    final formattedDate = DateFormat('dd MMM yyyy').format(now);
 
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          selectedLabIndex = index;
-        });
-      },
-      child: Container(
-        margin: const EdgeInsets.symmetric(
-          vertical: 5,
-          horizontal: 10,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'Date',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              Text('Today, $formattedDate',
+                  style: const TextStyle(fontSize: 16)),
+            ],
+          ),
         ),
-        padding: const EdgeInsets.all(10),
+        const SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: WeekView(),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLabSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: const Text(
+            "Computer Labs",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+        ),
+        ListView(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          children: [
+            _buildLabItem("Lab 013", "Samdech SorHeang", 0),
+            _buildLabItem("Programming Lab", "STEMP", 3),
+            _buildLabItem("Computer for Engineer Lab", "STEMP", 4),
+            _buildLabItem("Network Lab", "STEMP", 5),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSessionSection() {
+    final times = [
+      "08:00 - 09:00 AM",
+      "10:00 - 11:00 AM",
+      "12:00 - 01:00 PM",
+      "02:00 - 03:00 PM",
+      "04:00 - 05:00 PM",
+      "06:00 - 07:00 PM"
+    ];
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: const Text(
+            "Sessions",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          child: Column(
+            children: List.generate(times.length, (index) {
+              bool isSelected = controller.selectedTimeIndices.contains(index);
+              return GestureDetector(
+                onTap: () => setState(() {
+                  isSelected
+                      ? controller.selectedTimeIndices.remove(index)
+                      : controller.selectedTimeIndices.add(index);
+                }),
+                child: Container(
+                  margin: const EdgeInsets.symmetric(vertical: 5),
+                  width: double.infinity, // Make the card full-width
+                  decoration: BoxDecoration(
+                    color:
+                        isSelected ? Colors.blue.shade100 : Colors.transparent,
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                        color: isSelected ? Colors.blue : Colors.white,
+                        width: 2),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Text(
+                      times[index],
+                      style: TextStyle(
+                        color: isSelected ? Colors.blue : Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            }),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLabItem(String labName, String location, int index) {
+    bool isSelected = index == controller.selectedLabIndex.value;
+    return GestureDetector(
+      onTap: () => setState(() => controller.selectLab(index)),
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+        padding: const EdgeInsets.all(15),
         decoration: BoxDecoration(
           color: isSelected ? Colors.blue.shade100 : Colors.black,
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
-            color: isSelected ? Colors.blue : Colors.grey,
-            width: 2,
-          ),
+              color: isSelected ? Colors.blue : Colors.grey, width: 2),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              labName,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: isSelected ? Colors.blue : Colors.white,
-              ),
-            ),
-            Text(
-              location,
-              style: TextStyle(
-                color: isSelected ? Colors.blue : Colors.white,
-              ),
-            ),
+            Text(labName,
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: isSelected ? Colors.blue : Colors.white)),
+            Text(location,
+                style:
+                    TextStyle(color: isSelected ? Colors.blue : Colors.white)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNextButton() {
+    return GestureDetector(
+      onTap: () => Navigator.pushNamed(context, "/Request"),
+      child: Container(
+        margin: EdgeInsets.all(10),
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: Colors.blue,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text("Next", style: TextStyle(color: Colors.white)),
+            Icon(Icons.arrow_forward_ios, size: 15),
           ],
         ),
       ),
