@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../controllers/data_selection_controller.dart';
 import '../components/my_drawer.dart';
+import 'notifiction_screen.dart';
 import 'request_detail.dart';
 
 class RequestHistory extends StatefulWidget {
@@ -13,7 +14,8 @@ class RequestHistory extends StatefulWidget {
 
 class _RequestHistoryState extends State<RequestHistory> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final DateSelectionController controller = Get.find<DateSelectionController>();
+  final DateSelectionController controller =
+      Get.find<DateSelectionController>();
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,9 @@ class _RequestHistoryState extends State<RequestHistory> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Get.to(() => Notifications());
+            },
             icon: const Icon(Icons.notifications),
           ),
         ],

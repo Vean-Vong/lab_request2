@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class Notifications extends StatelessWidget {
   @override
@@ -11,10 +12,8 @@ class Notifications extends StatelessWidget {
           },
           icon: Icon(Icons.arrow_back_ios),
         ),
-        title: Text("Notifications"),
-        actions: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.person)),
-        ],
+        title: Text("notification".tr),
+        centerTitle: false,
       ),
       body: Padding(
         padding: EdgeInsets.all(20.0),
@@ -26,7 +25,7 @@ class Notifications extends StatelessWidget {
               description:
                   "Your lab request is pending. Admin will review your request.",
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
             NotificationCard(
               title: "Approve",
               date: "Sunday, 19 May 2024",
@@ -57,7 +56,7 @@ class NotificationCard extends StatelessWidget {
       padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Colors.white, width: 1),
+        border: Border.all(color: Colors.black, width: 1),
       ),
       child: Row(
         children: [
