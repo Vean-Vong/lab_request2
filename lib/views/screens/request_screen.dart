@@ -17,7 +17,7 @@ class Request extends StatelessWidget {
           },
           icon: Icon(Icons.arrow_back_ios),
         ),
-        title: Text("Request"),
+        title: Text("request".tr),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -57,7 +57,7 @@ class _Date extends StatelessWidget {
           size: 15,
         ),
         SizedBox(width: 10),
-        Text("Date:",
+        Text("date".tr,
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
         SizedBox(width: 10),
         Expanded(
@@ -93,7 +93,7 @@ class _LabSection extends StatelessWidget {
           size: 15,
         ),
         SizedBox(width: 10),
-        Text("Lab:",
+        Text("lab".tr,
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
         SizedBox(width: 10),
         Expanded(
@@ -128,7 +128,7 @@ class _SessionsSection extends StatelessWidget {
               size: 15,
             ),
             SizedBox(width: 10),
-            Text("Sessions:",
+            Text("sessions".tr,
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
           ],
         ),
@@ -167,7 +167,7 @@ class _AdditionalDetailsSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Complete Details",
+        Text("sessions".tr,
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
         SizedBox(height: 10),
         TextFormField(
@@ -175,8 +175,7 @@ class _AdditionalDetailsSection extends StatelessWidget {
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
-              hintText: "Software Need",
-              labelText: 'Software Need'),
+              labelText: 'software_need'.tr),
           onChanged: (value) {
             controller.softwareNeed.value = value;
           },
@@ -187,8 +186,7 @@ class _AdditionalDetailsSection extends StatelessWidget {
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
-              hintText: "Generation",
-              labelText: 'Generation'),
+              labelText: 'generation'.tr),
           onChanged: (value) {
             controller.generation.value = value;
           },
@@ -199,8 +197,7 @@ class _AdditionalDetailsSection extends StatelessWidget {
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
-              hintText: "Major",
-              labelText: 'Major'),
+              labelText: 'major'.tr),
           onChanged: (value) {
             controller.major.value = value;
           },
@@ -211,8 +208,7 @@ class _AdditionalDetailsSection extends StatelessWidget {
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
-              hintText: "Subject",
-              labelText: 'Subject'),
+              labelText: 'subject'.tr),
           onChanged: (value) {
             controller.subject.value = value;
           },
@@ -223,8 +219,7 @@ class _AdditionalDetailsSection extends StatelessWidget {
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
-              hintText: "Student",
-              labelText: 'Student'),
+              labelText: 'student'.tr),
           onChanged: (value) {
             controller.studentQuantity.value = value;
           },
@@ -235,8 +230,7 @@ class _AdditionalDetailsSection extends StatelessWidget {
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
-              hintText: "Additional (Optional)",
-              labelText: 'Additional'),
+              labelText: 'additional_optional'.tr),
           onChanged: (value) {
             controller.additionalNotes.value = value;
           },
@@ -288,7 +282,7 @@ class _SubmitButton extends StatelessWidget {
           }
         },
         child: Text(
-          "Submit",
+          "submit".tr,
           style: TextStyle(color: Colors.white, fontSize: 16),
         ),
       ),

@@ -20,7 +20,7 @@ class _RequestHistoryState extends State<RequestHistory> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: const Text("History Request"),
+        title: Text("histroy_request".tr),
         centerTitle: false,
         leading: IconButton(
           icon: Icon(Icons.sort),
@@ -46,7 +46,7 @@ class _RequestHistoryState extends State<RequestHistory> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Recent Request',
+                  'recent_request'.tr,
                   style: TextStyle(fontSize: 15, color: Colors.grey[600]),
                 ),
                 const SizedBox(height: 10),

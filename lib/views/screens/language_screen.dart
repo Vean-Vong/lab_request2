@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class Language extends StatelessWidget {
   @override
@@ -11,27 +12,36 @@ class Language extends StatelessWidget {
           },
           icon: Icon(Icons.arrow_back_ios),
         ),
-        title: Text("Languages"),
+        title: Text('language'.tr),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.0),
         child: Column(
           children: [
-            SizedBox(height: 50),
             GestureDetector(
               onTap: () {
-                // push to change language
+                var locale = Locale('km', 'KH');
+                Get.updateLocale(locale);
+                Get.changeTheme(ThemeData(
+                    textTheme: ThemeData.light()
+                        .textTheme
+                        .apply(fontFamily: 'NotoSansKhmer')));
               },
               child: _buildLanguageOption(
                 context,
                 imagePath: "assets/images/cambodia.png",
-                languageName: "Khmer",
+                languageName: "ភាសាខ្មែរ",
               ),
             ),
             SizedBox(height: 10),
             GestureDetector(
               onTap: () {
-                // push to change language
+                var locale = Locale('en', 'US');
+                Get.updateLocale(locale);
+                Get.changeTheme(ThemeData(
+                    textTheme: ThemeData.light()
+                        .textTheme
+                        .apply(fontFamily: 'Roboto')));
               },
               child: _buildLanguageOption(
                 context,
@@ -45,13 +55,14 @@ class Language extends StatelessWidget {
     );
   }
 
-  Widget _buildLanguageOption(BuildContext context, {required String imagePath, required String languageName}) {
+  Widget _buildLanguageOption(BuildContext context,
+      {required String imagePath, required String languageName}) {
     return Container(
       padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
-          color: Colors.white,
+          color: Colors.black,
           width: 1,
         ),
       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
+import 'package:get/get.dart';
 
 import '../screens/home_screen.dart';
 import '../screens/request_history.dart';
@@ -24,7 +25,7 @@ class _NavigationState extends State<Navigation> {
     double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.grey[100],
       body: PageView(
         controller: _pageController,
         onPageChanged: (index) {
@@ -48,7 +49,7 @@ class _NavigationState extends State<Navigation> {
             color: Colors.black38,
           ),
           child: FlashyTabBar(
-            backgroundColor: Colors.white,
+            backgroundColor: Colors.grey[100],
             selectedIndex: _selectedIndex,
             showElevation: true,
             onItemSelected: (index) {
@@ -60,11 +61,13 @@ class _NavigationState extends State<Navigation> {
             items: [
               FlashyTabBarItem(
                 icon: Icon(Icons.home, color: Colors.black),
-                title: Text('Home', style: TextStyle(color: Colors.black)),
+                title:
+                    Text('home_page'.tr, style: TextStyle(color: Colors.black)),
               ),
               FlashyTabBarItem(
                 icon: Icon(Icons.history, color: Colors.black),
-                title: Text('History', style: TextStyle(color: Colors.black)),
+                title:
+                    Text('histroy'.tr, style: TextStyle(color: Colors.black)),
               ),
             ],
           ),

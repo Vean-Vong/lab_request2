@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class Login extends StatelessWidget {
   @override
@@ -44,7 +45,7 @@ class Login extends StatelessWidget {
                       ),
                       prefixIcon: Icon(Icons.person),
                       suffixIcon: Icon(Icons.clear),
-                      hintText: "Name",
+                      hintText: "names".tr,
                     ),
                   ),
                 ),
@@ -57,7 +58,7 @@ class Login extends StatelessWidget {
                       ),
                       prefixIcon: Icon(Icons.lock),
                       suffixIcon: Icon(Icons.visibility),
-                      hintText: "Password",
+                      hintText: "password".tr,
                     ),
                   ),
                 ),

@@ -18,7 +18,15 @@ class RequestDetail extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Request Detail'),
+        title: Text('request_detail'.tr),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.delete, color: Colors.red),
+            onPressed: () {
+              // Handle remove action
+            },
+          )
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -28,37 +36,37 @@ class RequestDetail extends StatelessWidget {
             ListTile(
               leading: Icon(Icons.computer),
               title: Text(
-                'Request Lab: ${request['labName']}',
+                '${'request_detail'.tr}: ${request['labName']}',
               ),
             ),
             const Divider(),
             ListTile(
               leading: Icon(Icons.calendar_today),
-              title: Text('Request Date: ${request['date']}'),
+              title: Text('${'date'.tr}: ${request['date']}'),
             ),
             ListTile(
               leading: Icon(Icons.book),
-              title: Text('Major: ${request['major']}'),
+              title: Text('${'major'.tr}: ${request['major']}'),
             ),
             ListTile(
               leading: Icon(Icons.class_),
-              title: Text('Subject: ${request['subject']}'),
+              title: Text('${'subject'.tr}: ${request['subject']}'),
             ),
             ListTile(
               leading: Icon(Icons.group),
-              title: Text('Generation: ${request['generation']}'),
+              title: Text('${'generation'.tr}: ${request['generation']}'),
             ),
             ListTile(
               leading: Icon(Icons.laptop),
-              title: Text('Software Requirements: ${request['softwareNeed']}'),
+              title: Text('${'software_need'.tr}: ${request['softwareNeed']}'),
             ),
             ListTile(
               leading: Icon(Icons.people),
-              title: Text('Student Quantity: ${request['studentQuantity']}'),
+              title: Text('${'student'.tr}: ${request['studentQuantity']}'),
             ),
             const Divider(),
             Text(
-              'Sessions:',
+              'sessions'.tr,
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
@@ -85,21 +93,11 @@ class RequestDetail extends StatelessWidget {
             ListTile(
               leading: Icon(Icons.note),
               title: Text(
-                'Additional:',
+                'additional'.tr,
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
               subtitle: Text(
                 request['additionalNotes'] ?? 'No additional notes provided.',
-              ),
-            ),
-            const Divider(),
-            Align(
-              alignment: Alignment.centerRight,
-              child: IconButton(
-                icon: Icon(Icons.delete, color: Colors.red),
-                onPressed: () {
-                  // Handle remove action
-                },
               ),
             ),
           ],

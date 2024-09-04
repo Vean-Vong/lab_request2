@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../screens/edit_profile.dart';
+import '../screens/language_screen.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
@@ -37,16 +41,10 @@ class CustomDrawer extends StatelessWidget {
           SizedBox(height: 15),
           GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, "/EditProfile");
+              Get.to(() => EditProfile());
             },
             child: Container(
               margin: EdgeInsets.only(left: 20, right: 20),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: Colors.white,
-                    width: 1,
-                  )),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -58,7 +56,7 @@ class CustomDrawer extends StatelessWidget {
                             Icons.edit,
                             color: Colors.green,
                           )),
-                      Text("Edit Profile"),
+                      Text("edit_profile".tr),
                     ],
                   ),
                   IconButton(
@@ -68,14 +66,20 @@ class CustomDrawer extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 15),
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Divider(),
+          ),
           Container(
             padding: EdgeInsets.only(left: 10),
             child: Row(
               children: [
-                Text(
-                  "General Settings",
-                  style: TextStyle(fontSize: 20),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: Text(
+                    "general".tr,
+                    style: TextStyle(fontSize: 15),
+                  ),
                 ),
               ],
             ),
@@ -85,16 +89,10 @@ class CustomDrawer extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, "/Language");
+              Get.to(() => Language());
             },
             child: Container(
               margin: EdgeInsets.only(left: 20, right: 20),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: Colors.white,
-                    width: 1,
-                  )),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -106,7 +104,7 @@ class CustomDrawer extends StatelessWidget {
                             Icons.language,
                             color: Colors.amber,
                           )),
-                      Text("Language"),
+                      Text("language".tr),
                     ],
                   ),
                   IconButton(
@@ -123,12 +121,6 @@ class CustomDrawer extends StatelessWidget {
             },
             child: Container(
               margin: EdgeInsets.only(left: 20, right: 20),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: Colors.white,
-                    width: 1,
-                  )),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -140,7 +132,7 @@ class CustomDrawer extends StatelessWidget {
                             Icons.help,
                             color: Colors.blue,
                           )),
-                      Text("About"),
+                      Text("about".tr),
                     ],
                   ),
                   IconButton(
@@ -158,11 +150,8 @@ class CustomDrawer extends StatelessWidget {
             child: Container(
               margin: EdgeInsets.only(left: 20, right: 20),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: Colors.white,
-                    width: 1,
-                  )),
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.red.withOpacity(0.5)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -174,12 +163,9 @@ class CustomDrawer extends StatelessWidget {
                             Icons.login_outlined,
                             color: Colors.red,
                           )),
-                      Text("Log Out"),
+                      Text("log_out".tr),
                     ],
                   ),
-                  IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.arrow_forward_ios, size: 18))
                 ],
               ),
             ),

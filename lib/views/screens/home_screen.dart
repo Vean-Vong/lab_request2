@@ -21,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: const Text("Home Page"),
+        title: Text('home_page'.tr),
         centerTitle: false,
         leading: IconButton(
           icon: Icon(Icons.sort),
@@ -74,7 +74,7 @@ class RequestButton extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Text(
-          'Request Detail',
+          'request_detail'.tr,
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
@@ -108,7 +108,7 @@ class RequestButton extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Request',
+                  'request'.tr,
                   style: TextStyle(fontSize: 15, color: Colors.white),
                 ),
                 Icon(
@@ -145,8 +145,8 @@ class SessionSelection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Sessions',
+        Text(
+          'sessions'.tr,
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
@@ -237,8 +237,8 @@ class LabSelection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Computer Room',
+        Text(
+          'computer_room'.tr,
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
@@ -324,15 +324,15 @@ class _DateSelectionState extends State<DateSelection> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text(
-              'Date',
+            Text(
+              'date'.tr,
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
             ),
             Text(
-              'Today, $formattedDate',
+              '$formattedDate',
               style: const TextStyle(fontSize: 16),
             ),
           ],
