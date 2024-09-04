@@ -78,7 +78,7 @@ class NotificationCard extends StatelessWidget {
                 SizedBox(height: 8.0),
                 Text(
                   description,
-                  style: TextStyle(color: Colors.grey[700]),
+                  style: TextStyle(color: Colors.grey[900]),
                 ),
               ],
             ),

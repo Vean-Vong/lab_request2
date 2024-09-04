@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
-import 'package:request/screens/HistoryRequest.dart';
-import 'package:request/views/screens/home_screen.dart';
 
+import '../screens/home_screen.dart';
+import '../screens/request_history.dart';
 
 class Navigation extends StatefulWidget {
   @override
@@ -24,7 +24,7 @@ class _NavigationState extends State<Navigation> {
     double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: Colors.black38,
+      backgroundColor: Colors.white,
       body: PageView(
         controller: _pageController,
         onPageChanged: (index) {
@@ -34,7 +34,7 @@ class _NavigationState extends State<Navigation> {
         },
         children: [
           HomeScreen(),
-          HistoryRequest(),
+          RequestHistory(),
         ],
       ),
       bottomNavigationBar: ClipRRect(
@@ -48,7 +48,7 @@ class _NavigationState extends State<Navigation> {
             color: Colors.black38,
           ),
           child: FlashyTabBar(
-            backgroundColor: Colors.black,
+            backgroundColor: Colors.white,
             selectedIndex: _selectedIndex,
             showElevation: true,
             onItemSelected: (index) {
@@ -59,12 +59,12 @@ class _NavigationState extends State<Navigation> {
             },
             items: [
               FlashyTabBarItem(
-                icon: Icon(Icons.home, color: Colors.white),
-                title: Text('Home', style: TextStyle(color: Colors.white)),
+                icon: Icon(Icons.home, color: Colors.black),
+                title: Text('Home', style: TextStyle(color: Colors.black)),
               ),
               FlashyTabBarItem(
-                icon: Icon(Icons.history, color: Colors.white),
-                title: Text('History', style: TextStyle(color: Colors.white)),
+                icon: Icon(Icons.history, color: Colors.black),
+                title: Text('History', style: TextStyle(color: Colors.black)),
               ),
             ],
           ),

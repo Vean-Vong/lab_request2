@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:request/pages/Register.dart';
-import 'package:request/pages/login.dart';
-import 'package:request/screens/About.dart';
-import 'package:request/screens/EditProfile.dart';
-import 'package:request/screens/EditScreen.dart';
-import 'package:request/screens/HistoryRequest.dart';
-import 'package:request/screens/Language.dart';
-import 'package:request/screens/Navigation.dart';
-import 'package:request/screens/Notifiction.dart';
-import 'package:request/views/screens/request_screen.dart';
-import 'package:request/screens/Request_Detail.dart';
+import 'package:request/views/auth/Register.dart';
+import 'package:request/views/auth/login.dart';
+import 'package:request/views/screens/About.dart';
+import 'package:request/views/screens/EditProfile.dart';
+import 'package:request/views/screens/EditScreen.dart';
+import 'package:request/views/screens/Language.dart';
+import 'package:request/views/components/navigattion.dart';
+import 'package:request/views/screens/Notifiction.dart';
 import 'package:get/get.dart';
+import 'package:request/views/screens/request_screen.dart';
 
-import 'views/screens/home_screen.dart';
 import '../../controllers/data_selection_controller.dart';
+import 'views/screens/home_screen.dart';
+import 'views/screens/request_history.dart';
 
 void main() {
   Get.put(DateSelectionController());
@@ -26,7 +25,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData.light(),
-      initialRoute: "/Homepage",
+      initialRoute: "/",
       routes: {
         "/": (context) => Navigation(),
         "/Homepage": (context) => HomeScreen(),
@@ -35,8 +34,7 @@ class MyApp extends StatelessWidget {
         "/Language": (context) => Language(),
         "/Notification": (context) => Notifications(),
         "/About": (context) => About(),
-        "/HistoryRequest": (context) => HistoryRequest(),
-        "/RequestDetails": (context) => RequestDetails(),
+        "/HistoryRequest": (context) => RequestHistory(),
         "/EditDetail": (context) => EditDetail(),
         "/Register": (context) => Register(),
         "/Login": (context) => Login(),

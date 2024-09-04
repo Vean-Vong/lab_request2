@@ -34,10 +34,6 @@ class _HomeScreenState extends State<HomeScreen> {
             onPressed: () {},
             icon: const Icon(Icons.notifications),
           ),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.dark_mode),
-          ),
         ],
       ),
       // Drawer
