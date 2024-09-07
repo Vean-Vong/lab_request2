@@ -19,15 +19,10 @@ class RequestDetail extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('request_detail'.tr),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.delete, color: Colors.red),
-            onPressed: () {
-              // Handle remove action
-            },
-          )
-        ],
+        centerTitle: false,
+        backgroundColor: Colors.grey[100],
       ),
+      backgroundColor: Colors.grey[100],
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(

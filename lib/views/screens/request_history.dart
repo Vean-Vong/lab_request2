@@ -30,6 +30,7 @@ class _RequestHistoryState extends State<RequestHistory> {
             _scaffoldKey.currentState?.openDrawer();
           },
         ),
+        backgroundColor: Colors.grey[100],
         actions: [
           IconButton(
             onPressed: () {
@@ -39,6 +40,8 @@ class _RequestHistoryState extends State<RequestHistory> {
           ),
         ],
       ),
+      backgroundColor: Colors.grey[100],
+
       // Drawer
       drawer: const CustomDrawer(),
       body: Padding(

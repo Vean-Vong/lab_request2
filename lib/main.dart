@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:request/views/auth/register_screen.dart';
 import 'package:request/views/auth/login_screen.dart';
 import 'package:request/views/screens/about_screen.dart';
@@ -16,7 +17,14 @@ import 'views/screens/request_history.dart';
 
 void main() {
   Get.put(DateSelectionController());
-  runApp(MyApp());
+  // Lock the app to portrait mode
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]).then((_) {
+    runApp(MyApp());
+  });
 }
 
 class MyApp extends StatelessWidget {

@@ -30,6 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
             _scaffoldKey.currentState?.openDrawer();
           },
         ),
+        backgroundColor: Colors.grey[100],
         actions: [
           IconButton(
             onPressed: () {
@@ -41,6 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       // Drawer
       drawer: const CustomDrawer(),
+      backgroundColor: Colors.grey[100],
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),

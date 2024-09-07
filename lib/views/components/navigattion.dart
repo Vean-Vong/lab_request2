@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:get/get.dart';
 
 import '../screens/home_screen.dart';
@@ -22,56 +21,46 @@ class _NavigationState extends State<Navigation> {
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
-
     return Scaffold(
       backgroundColor: Colors.grey[100],
-      body: PageView(
-        controller: _pageController,
-        onPageChanged: (index) {
+      body: SafeArea(
+        child: PageView(
+          controller: _pageController,
+          onPageChanged: (index) {
+            setState(() {
+              _selectedIndex = index;
+            });
+          },
+          children: [
+            HomeScreen(),
+            RequestHistory(),
+          ],
+        ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: (index) {
           setState(() {
             _selectedIndex = index;
+            _pageController.jumpToPage(index);
           });
         },
-        children: [
-          HomeScreen(),
-          RequestHistory(),
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'home_page'.tr,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.history),
+            label: 'history'.tr,
+          ),
         ],
-      ),
-      bottomNavigationBar: ClipRRect(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(50.0),
-          topRight: Radius.circular(50.0),
-        ),
-        child: Container(
-          height: screenHeight * 0.08,
-          decoration: BoxDecoration(
-            color: Colors.black38,
-          ),
-          child: FlashyTabBar(
-            backgroundColor: Colors.grey[100],
-            selectedIndex: _selectedIndex,
-            showElevation: true,
-            onItemSelected: (index) {
-              setState(() {
-                _selectedIndex = index;
-                _pageController.jumpToPage(index);
-              });
-            },
-            items: [
-              FlashyTabBarItem(
-                icon: Icon(Icons.home, color: Colors.black),
-                title:
-                    Text('home_page'.tr, style: TextStyle(color: Colors.black)),
-              ),
-              FlashyTabBarItem(
-                icon: Icon(Icons.history, color: Colors.black),
-                title:
-                    Text('histroy'.tr, style: TextStyle(color: Colors.black)),
-              ),
-            ],
-          ),
-        ),
+        backgroundColor: Colors.grey[100],
+        selectedItemColor: Colors.blue,
+        unselectedItemColor: Colors.black,
+        showSelectedLabels: true,
+        showUnselectedLabels: true,
+        type: BottomNavigationBarType.fixed,
       ),
     );
   }
