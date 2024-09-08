@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../screens/home_screen.dart';
+import '../screens/request_detail_screen.dart';
+import '../screens/request_screen.dart';
 import '../screens/request_history.dart';
 
 class Navigation extends StatefulWidget {
@@ -33,6 +35,7 @@ class _NavigationState extends State<Navigation> {
           },
           children: [
             HomeScreen(),
+            RequestScreen(),
             RequestHistory(),
           ],
         ),
@@ -49,6 +52,10 @@ class _NavigationState extends State<Navigation> {
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'home_page'.tr,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.date_range),
+            label: 'Request',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.history),

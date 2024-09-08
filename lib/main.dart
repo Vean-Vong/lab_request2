@@ -8,12 +8,12 @@ import 'package:request/views/screens/language_screen.dart';
 import 'package:request/views/components/navigattion.dart';
 import 'package:request/views/screens/notifiction_screen.dart';
 import 'package:get/get.dart';
-import 'package:request/views/screens/request_screen.dart';
 
 import '../../controllers/data_selection_controller.dart';
 import 'language/my_translate.dart';
 import 'views/screens/home_screen.dart';
 import 'views/screens/request_history.dart';
+import 'views/screens/request_screen.dart';
 
 void main() {
   Get.put(DateSelectionController());
@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
       routes: {
         "/": (context) => Navigation(),
         "/Homepage": (context) => HomeScreen(),
-        "/Request": (context) => Request(),
+        "/Request": (context) => RequestScreen(),
         "/EditProfile": (context) => EditProfile(),
         "/Language": (context) => Language(),
         "/Notification": (context) => Notifications(),

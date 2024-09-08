@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import '../../controllers/data_selection_controller.dart';
 import '../components/my_drawer.dart';
 import 'notifiction_screen.dart';
-import 'request_detail.dart';
+import 'check_request_detail.dart';
 
 class RequestHistory extends StatefulWidget {
   const RequestHistory({super.key});
@@ -22,7 +22,7 @@ class _RequestHistoryState extends State<RequestHistory> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text("histroy_request".tr),
+        title: Text("History"),
         centerTitle: false,
         leading: IconButton(
           icon: Icon(Icons.sort),
@@ -45,7 +45,7 @@ class _RequestHistoryState extends State<RequestHistory> {
       // Drawer
       drawer: const CustomDrawer(),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 15),
         child: Obx(() {
           return GestureDetector(
             onTap: () {},
