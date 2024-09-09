@@ -1,11 +1,13 @@
 import 'package:get/get.dart';
 import '../models/request_model.dart';
 import '../services/session_service.dart';
+import 'package:intl/intl.dart';
 
 class HomeController extends GetxController {
   var selectedDate = DateTime.now().obs;
   var selectedLab = ''.obs;
   var sessions = <SessionInfo>[].obs;
+  var userInfos = <String, UserInfo>{}.obs; // Maps session timeslots to UserInfo
 
   final RequestService _requestService = RequestService();
 
@@ -23,27 +25,32 @@ class HomeController extends GetxController {
     }
   }
 
-  // Fetch sessions based on selected date and lab
   Future<void> fetchSessions() async {
     try {
       var labRequests = await _requestService.fetchRequests();
       print("Fetched ${labRequests.length} requests");
 
-      var filteredRequests = labRequests
-          .where((request) => request.labInfo.labName == selectedLab.value)
-          .toList();
+      String selectedDateStr = DateFormat('yyyy-MM-dd').format(selectedDate.value);
+
+      var filteredRequests = labRequests.where((request) {
+        String requestDate = DateFormat('yyyy-MM-dd').format(DateTime.parse(request.requestDetails.requestTimestamp));
+        return request.labInfo.labName == selectedLab.value && requestDate == selectedDateStr;
+      }).toList();
 
       print("Filtered Requests: ${filteredRequests.length}");
 
       var allSessions = <SessionInfo>[];
+      var tempUserInfos = <String, UserInfo>{}; // Temporary storage for UserInfo
 
       for (var request in filteredRequests) {
         allSessions.addAll(request.sessionInfo);
+        tempUserInfos[request.labInfo.labName] = request.userInfo;
       }
 
       print("All Sessions: ${allSessions.length}");
 
-      sessions.value = allSessions;  
+      sessions.value = allSessions;
+      userInfos.value = tempUserInfos; // Update userInfos mapping
     } catch (e) {
       print("Error fetching sessions: $e");
     }

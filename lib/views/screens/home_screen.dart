@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../controllers/home_controller.dart';
+import '../../models/request_model.dart';
 import '../components/my_drawer.dart';
 import 'notifiction_screen.dart';
 
@@ -18,90 +19,127 @@ class _HomeScreenState extends State<HomeScreen> {
   final HomeController controller = Get.put(HomeController());
 
   @override
+  void initState() {
+    super.initState();
+    controller.fetchSessions();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-        key: _scaffoldKey,
-        appBar: AppBar(
-          title: Text("Home"),
-          centerTitle: false,
-          leading: IconButton(
-            icon: Icon(Icons.sort),
+      key: _scaffoldKey,
+      appBar: AppBar(
+        title: Text("Home"),
+        centerTitle: false,
+        leading: IconButton(
+          icon: Icon(Icons.sort),
+          onPressed: () {
+            _scaffoldKey.currentState?.openDrawer();
+          },
+        ),
+        backgroundColor: Colors.grey[100],
+        actions: [
+          IconButton(
             onPressed: () {
-              _scaffoldKey.currentState?.openDrawer();
+              Get.to(() => Notifications());
             },
+            icon: const Icon(Icons.notifications),
           ),
-          backgroundColor: Colors.grey[100],
-          actions: [
-            IconButton(
-              onPressed: () {
-                Get.to(() => Notifications());
-              },
-              icon: const Icon(Icons.notifications),
+        ],
+      ),
+      backgroundColor: Colors.grey[100],
+      drawer: const CustomDrawer(),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        child: Column(
+          children: [
+            SingleChildScrollView(child: DateSelection()),
+            const SizedBox(height: 10),
+            LabSelectionScreen(),
+            const SizedBox(height: 10),
+            Expanded(
+              child: Obx(() {
+                List<Map<String, String>> predefinedSlots = [
+                  {'time': '07:00 - 08:30 AM', 'order': '1'},
+                  {'time': '08:50 - 10:20 AM', 'order': '2'},
+                  {'time': '10:50 - 12:00 PM', 'order': '3'},
+                  {'time': '01:00 - 02:30 PM', 'order': '4'},
+                  {'time': '02:50 - 04:20 PM', 'order': '5'},
+                  {'time': '04:30 - 05:30 PM', 'order': '6'},
+                ];
+
+                List<SessionInfo> sessionCards = List.generate(6, (index) {
+                  String slotTime = predefinedSlots[index]['time']!;
+                  SessionInfo? matchingSession = controller.sessions
+                      .firstWhereOrNull(
+                          (session) => session.timeSlot == slotTime);
+
+                  return matchingSession ??
+                      SessionInfo(
+                          sessionId: 0,
+                          timeSlot: slotTime,
+                          sessionNumber: index + 1,
+                          sessionStatus: 'available');
+                });
+
+                return ListView.builder(
+                  itemCount: sessionCards.length,
+                  itemBuilder: (context, index) {
+                    var session = sessionCards[index];
+                    bool isBusy = session.sessionStatus != 'available';
+
+                    // Get the user info based on lab name or other criteria
+                    UserInfo? userInfo =
+                        controller.userInfos[controller.selectedLab.value];
+
+                    String contactInfo = isBusy && userInfo != null
+                        ? '${userInfo.fullName} | ${userInfo.contactDetails.phoneNumber}'
+                        : 'Free';
+
+                    return Card(
+                      elevation: 0,
+                      color: Colors.white,
+                      margin: const EdgeInsets.only(bottom: 10),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: isBusy
+                              ? Colors.red.withOpacity(0.2)
+                              : Colors.green.withOpacity(0.2),
+                          border: Border.all(
+                            color: isBusy ? Colors.red : Colors.green,
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              session.timeSlot,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 13),
+                            ),
+                            if (contactInfo.isNotEmpty)
+                              Padding(
+                                padding: const EdgeInsets.only(top: 4),
+                                child: Text(
+                                  contactInfo,
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                );
+              }),
             ),
           ],
         ),
-        backgroundColor: Colors.grey[100],
-
-        // Drawer
-        drawer: const CustomDrawer(),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: Column(
-            children: [
-              SingleChildScrollView(
-                child: DateSelection(),
-              ),
-              const SizedBox(height: 10),
-
-              // Lab Selection
-              LabSelectionScreen(),
-              const SizedBox(height: 10),
-
-              // Session Cards
-              Expanded(
-                child: Obx(() {
-                  var sessions = controller.sessions;
-                  if (sessions.isEmpty) {
-                    return Center(child: Text("No sessions available"));
-                  }
-                  return ListView.builder(
-                    itemCount: sessions.length,
-                    itemBuilder: (context, index) {
-                      var session = sessions[index];
-                      return Card(
-                        elevation: 0,
-                        color: Colors.white,
-                        margin: const EdgeInsets.only(bottom: 10),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                session.timeSlot,
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                session.sessionStatus == 'isAvailable'
-                                    ? 'Available'
-                                    : 'Busy',
-                                style: TextStyle(
-                                    color:
-                                        session.sessionStatus == 'isAvailable'
-                                            ? Colors.green
-                                            : Colors.red),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                }),
-              )
-            ],
-          ),
-        ));
+      ),
+    );
   }
 }
 
