@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:request/views/auth/register_screen.dart';
-import 'package:request/views/auth/login_screen.dart';
-import 'package:request/views/screens/about_screen.dart';
-import 'package:request/views/screens/edit_profile.dart';
-import 'package:request/views/screens/language_screen.dart';
-import 'package:request/views/components/navigattion.dart';
-import 'package:request/views/screens/notifiction_screen.dart';
 import 'package:get/get.dart';
 
-import '../../controllers/data_selection_controller.dart';
+import 'controllers/request_controller.dart';
 import 'language/my_translate.dart';
+import 'services/session_service.dart';
+import 'views/auth/login_screen.dart';
+import 'views/auth/register_screen.dart';
+import 'views/components/navigattion.dart';
+import 'views/screens/about_screen.dart';
+import 'views/screens/edit_profile.dart';
 import 'views/screens/home_screen.dart';
+import 'views/screens/language_screen.dart';
+import 'views/screens/notifiction_screen.dart';
 import 'views/screens/request_history.dart';
 import 'views/screens/request_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // Initialize the RequestService
+  Get.put(RequestService());
+
   Get.put(DateSelectionController());
   // Lock the app to portrait mode
   WidgetsFlutterBinding.ensureInitialized();
