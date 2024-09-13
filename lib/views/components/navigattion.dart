@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../screens/home_screen.dart';
-import '../screens/request_detail_screen.dart';
 import '../screens/request_screen.dart';
 import '../screens/request_history.dart';
 

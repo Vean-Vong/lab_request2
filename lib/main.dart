@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import 'controllers/request_controller.dart';
 import 'language/my_translate.dart';
+import 'middlewares/auth_middleware.dart';
 import 'services/session_service.dart';
 import 'views/auth/login_screen.dart';
 import 'views/auth/register_screen.dart';
@@ -41,19 +42,23 @@ class MyApp extends StatelessWidget {
       fallbackLocale: Locale('en', 'US'),
       debugShowCheckedModeBanner: false,
       theme: ThemeData.light(),
-      initialRoute: "/",
-      routes: {
-        "/": (context) => Navigation(),
-        "/Homepage": (context) => HomeScreen(),
-        "/Request": (context) => RequestScreen(),
-        "/EditProfile": (context) => EditProfile(),
-        "/Language": (context) => Language(),
-        "/Notification": (context) => Notifications(),
-        "/About": (context) => About(),
-        "/HistoryRequest": (context) => RequestHistory(),
-        "/Register": (context) => Register(),
-        "/Login": (context) => Login(),
-      },
+      initialRoute: "/Login",
+      getPages: [
+        GetPage(name: "/", page: () => Navigation()),
+        GetPage(name: "/Homepage", page: () => HomeScreen()),
+        GetPage(name: "/Request", page: () => RequestScreen()),
+        GetPage(name: "/EditProfile", page: () => EditProfile()),
+        GetPage(name: "/Language", page: () => Language()),
+        GetPage(name: "/Notification", page: () => Notifications()),
+        GetPage(name: "/About", page: () => About()),
+        GetPage(name: "/HistoryRequest", page: () => RequestHistory()),
+        GetPage(
+          name: "/Register",
+          page: () => Register(),
+          middlewares: [AuthMiddleware()],
+        ),
+        GetPage(name: "/Login", page: () => Login()),
+      ],
     );
   }
 
