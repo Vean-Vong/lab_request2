@@ -1,8 +1,6 @@
 import 'dart:convert';
-
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-
 import '../models/auth_model.dart';
 import '../views/components/navigattion.dart';
 
@@ -14,26 +12,18 @@ class AuthController extends GetxController {
           gender: '',
           phone: '',
           department: '',
-          faculty: '',
           position: '',
           token: '')
       .obs;
   var isLoading = false.obs;
 
-  Future<void> register(
-      String name,
-      String email,
-      String password,
-      String phone,
-      String gender,
-      String department,
-      String faculty,
-      String position) async {
+  Future<void> register(String name, String email, String password,
+      String phone, String gender, String department, String position) async {
     try {
       isLoading.value = true;
 
       final response = await http.post(
-        Uri.parse('[api_ip:port]/api/auth/register'),
+        Uri.parse('http://192.168.2.2:8000/api/register'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           'name': name,
@@ -42,30 +32,26 @@ class AuthController extends GetxController {
           'phone': phone,
           'gender': gender,
           'department': department,
-          'faculty': faculty,
           'position': position,
         }),
       );
 
-      // Print response for debugging
       print('Response status: ${response.statusCode}');
       print('Response body: ${response.body}');
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         var data = jsonDecode(response.body);
 
-        // Check if the response has both user and token fields
-        if (data.containsKey('user') && data.containsKey('token')) {
-          user.value = UserModel.fromJson(data['user']);
-          user.value.token = data['token'];
+        if (data.containsKey('access_token')) {
+          // Update the user model with the token
+          user.value.token = data['access_token'];
 
           Get.snackbar('Success', 'User registered successfully',
               duration: Duration(seconds: 3));
           Get.offAllNamed('/Login');
         } else {
-          Get.snackbar('Error', 'Unexpected response format');
-          print(
-              'Unexpected response format: $data'); // Print the unexpected format
+          Get.snackbar('Error', 'Access token not found in response');
+          print('Unexpected response format: $data');
         }
       } else {
         var errorMessage = 'Registration failed';
@@ -74,13 +60,11 @@ class AuthController extends GetxController {
           if (errorData.containsKey('message')) {
             errorMessage = errorData['message'];
           }
-          // Print the error message
           print('Error data: $errorData');
         }
         Get.snackbar('Error', errorMessage);
       }
     } catch (e) {
-      // Print any error that occurs
       print('Error: $e');
       Get.snackbar('Error', 'Something went wrong. Please try again later.');
     } finally {
@@ -93,7 +77,7 @@ class AuthController extends GetxController {
       isLoading.value = true;
 
       final response = await http.post(
-        Uri.parse('[api_ip:port]/api/auth/login'),
+        Uri.parse('http://192.168.2.2:8000/api/login'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           'email': email,
@@ -101,23 +85,23 @@ class AuthController extends GetxController {
         }),
       );
 
-      // Print response for debugging
       print('Response status: ${response.statusCode}');
       print('Response body: ${response.body}');
 
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
 
-        // Check if the response has both user and token fields
-        if (data.containsKey('user') && data.containsKey('token')) {
-          user.value = UserModel.fromJson(data['user']);
-          user.value.token = data['token'];
+        if (data.containsKey('access_token')) {
+          user.value.token = data['access_token'];
+
+          // You might want to fetch user details here if needed
+          // await fetchUserDetails();
 
           Get.snackbar('Success', 'Login successful',
               duration: Duration(seconds: 3));
           Get.offAll(() => Navigation());
         } else {
-          Get.snackbar('Error', 'Unexpected response format');
+          Get.snackbar('Error', 'Access token not found in response');
           print('Unexpected response format: $data');
         }
       } else {
@@ -127,17 +111,21 @@ class AuthController extends GetxController {
           if (errorData.containsKey('message')) {
             errorMessage = errorData['message'];
           }
-          // Print the error message
           print('Error data: $errorData');
         }
         Get.snackbar('Error', errorMessage);
       }
     } catch (e) {
-      // Print any error that occurs
       print('Error: $e');
       Get.snackbar('Error', 'Something went wrong. Please try again later.');
     } finally {
       isLoading.value = false;
     }
+  }
+
+  // You might need to add this method to fetch user details after login
+  Future<void> fetchUserDetails() async {
+    // Implement API call to get user details using the access token
+    // Update the user model with the fetched details
   }
 }

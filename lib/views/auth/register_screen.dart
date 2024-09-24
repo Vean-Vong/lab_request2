@@ -13,7 +13,6 @@ class Register extends StatelessWidget {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController genderController = TextEditingController();
   final TextEditingController departmentController = TextEditingController();
-  final TextEditingController facultyController = TextEditingController();
   final TextEditingController positionController = TextEditingController();
 
   @override
@@ -114,15 +113,7 @@ class Register extends StatelessWidget {
                       obscureText: false,
                     ),
                     SizedBox(height: 10),
-                    // faculty
-                    CustomTextField(
-                      controller: facultyController,
-                      label: 'Faculty',
-                      hint: 'Enter your faculty',
-                      keyboardType: TextInputType.name,
-                      isPassword: false,
-                      obscureText: false,
-                    ),
+                  
                     SizedBox(height: 10),
                     // position
                     CustomTextField(
@@ -147,7 +138,6 @@ class Register extends StatelessWidget {
                                   phoneController.text,
                                   genderController.text,
                                   departmentController.text,
-                                  facultyController.text,
                                   positionController.text,
                                 );
                               },
